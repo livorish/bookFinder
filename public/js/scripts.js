@@ -9,6 +9,7 @@ function findBook () {
 		url: "https://www.googleapis.com/books/v1/volumes?q=" + userInput,
 		dataType: "JSON",
 		success: function (book) {
+			console.log(book)
 			for(var i = 0; book.items.length; i++){
 
 				var wrapperDiv = document.createElement('div');
@@ -21,7 +22,7 @@ function findBook () {
                 var div = document.createElement('div');
                 div.className = 'media-body';
 
-                var header = document.createElement('h5');
+                var header = document.createElement('h3');
                 header.className = 'mt-0';
                 header.innerHTML = book.items[i].volumeInfo.title;
                 div.appendChild(header);
@@ -40,15 +41,28 @@ function findBook () {
                 div.appendChild(author);
 
                 var countrySide = document.createElement('p')
-                countrySide.innerHTML = 'Country: ' + book.items[i].accessInfo.country;
+                countrySide.innerHTML = '<b>Country: </b>' + book.items[i].accessInfo.country;
                 div.appendChild(countrySide);
+
+                var yearOftheBook = document.createElement('p');
+                yearOftheBook.innerHTML = '<b>Year: </b>' + book.items[i].volumeInfo.publishedDate;
+                div.appendChild(yearOftheBook);
+
+                var pageCount = document.createElement('p');
+                pageCount.innerHTML = '<b>Pages: </b>' + book.items[i].volumeInfo.pageCount;
+                div.appendChild(pageCount);
 
                 var desc = document.createElement('p');
                 desc.innerHTML = book.items[i].volumeInfo.description;
                 div.appendChild(desc);
                
                 bookResult.appendChild(wrapperDiv);
+              
 
+                var urlOfBook = document.createElement('a');                 
+                urlOfBook.innerHTML = '<b>View more about the book</b>';
+                urlOfBook.href = book.items[i].volumeInfo.previewLink;
+                div.appendChild(urlOfBook);
                 var line = document.createElement('hr');
                 bookResult.appendChild(line);
             }
